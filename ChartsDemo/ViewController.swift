@@ -48,9 +48,9 @@ class ViewController: UIViewController {
         chartView.rightAxis.enabled = false
         
         let limitLine = ChartLimitLine(limit: 0, label: "First limit")
-        let limitLine2 = ChartLimitLine(limit: 25, label: "Second limit")
-        let limitLine3 = ChartLimitLine(limit: 50, label: "Third limit")
-        let limitLine4 = ChartLimitLine(limit: 75, label: "Fourth limit")
+        let limitLine2 = ChartLimitLine(limit: 60*60*24, label: "Second limit")
+        let limitLine3 = ChartLimitLine(limit: 2*60*60*24, label: "Third limit")
+        let limitLine4 = ChartLimitLine(limit: 3*60*60*24, label: "Fourth limit")
         limitLine.labelPosition = .rightTop
         limitLine.lineColor = UIColor(red: 197.0/255.0, green: 231.0/255.0, blue: 247.0/255.0, alpha: 0.7)
         limitLine2.labelPosition = .rightTop
@@ -59,15 +59,16 @@ class ViewController: UIViewController {
         limitLine3.lineColor = UIColor(red: 197.0/255.0, green: 231.0/255.0, blue: 247.0/255.0, alpha: 0.7)
         limitLine4.labelPosition = .rightTop
         limitLine4.lineColor = UIColor(red: 197.0/255.0, green: 231.0/255.0, blue: 247.0/255.0, alpha: 0.7)
-        xAxis.addLimitLine(limitLine)
-        xAxis.addLimitLine(limitLine2)
-        xAxis.addLimitLine(limitLine3)
-        xAxis.addLimitLine(limitLine4)
+//        xAxis.addLimitLine(limitLine)
+//        xAxis.addLimitLine(limitLine2)
+//        xAxis.addLimitLine(limitLine3)
+//        xAxis.addLimitLine(limitLine4)
         
         xAxis.drawLimitLinesBehindDataEnabled = true
+        xAxis.valueFormatter = self
         leftAxis.drawLimitLinesBehindDataEnabled = true
         
-        chartView.setScaleMinima(2.0, scaleY: 1)
+        chartView.setScaleMinima(50, scaleY: 1)
         chartView.scaleYEnabled = false
         chartView.legend.form = .line
         let l = chartView.legend
@@ -82,9 +83,12 @@ class ViewController: UIViewController {
     }
     
     fileprivate func setData() {
-        let count = 100
+        let count = 4*60*60*24
         let range = ClosedRange<Double>(uncheckedBounds: (0, 100))
-        let values = (0..<count).map { (i) -> ChartDataEntry in
+        let values = (0..<count).compactMap { (i) -> ChartDataEntry? in
+            if Int.random(in: ClosedRange<Int>(uncheckedBounds: (0, 100))) > 10 {
+                return nil
+            }
             let val = Double.random(in: range) + 3
             return ChartDataEntry(x: Double(i), y: val, icon: NSUIImage(contentsOfFile: "icon"))
         }
