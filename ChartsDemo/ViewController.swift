@@ -20,6 +20,14 @@ class ViewController: UIViewController {
         setupLinechartView()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        //chartView.moveViewToAnimated(xValue: 5, yValue: 20, axis: .left, duration: 3.0)
+        chartView.zoomAndCenterViewAnimated(scaleX: 80, scaleY: 20, xValue: 5, yValue: 0, axis: .left, duration: 1.0)
+        chartView.scaleYEnabled = false
+        chartView.dragYEnabled = false
+    }
+    
     fileprivate func setupLinechartView() {
         chartView.chartDescription?.enabled = true
         chartView.dragEnabled = true
@@ -80,7 +88,6 @@ class ViewController: UIViewController {
         l.orientation = .horizontal
         l.drawInside = false
         //chartView.animate(xAxisDuration: 2.5)
-        
         setData()
     }
     
