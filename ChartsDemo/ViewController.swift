@@ -23,7 +23,7 @@ class ViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         //chartView.moveViewToAnimated(xValue: 5, yValue: 20, axis: .left, duration: 3.0)
-        chartView.zoomAndCenterViewAnimated(scaleX: 80, scaleY: 20, xValue: 5, yValue: 0, axis: .left, duration: 1.0)
+        //chartView.zoomAndCenterViewAnimated(scaleX: 80, scaleY: 20, xValue: 0, yValue: 0, axis: .left, duration: 1.0)
         chartView.scaleYEnabled = false
         chartView.dragYEnabled = false
     }
@@ -55,6 +55,8 @@ class ViewController: UIViewController {
         //leftAxis.labelPosition = .insideChart
         
         leftAxis.labelXOffset = 50
+        leftAxis.granularityEnabled = true
+        leftAxis.granularity = 1
         chartView.rightAxis.enabled = false
         
         let limitLine = ChartLimitLine(limit: 0, label: "First limit")
@@ -79,6 +81,10 @@ class ViewController: UIViewController {
         //leftAxis.drawLimitLinesBehindDataEnabled = true
         
         chartView.setScaleMinima(2.5, scaleY: 1)
+        
+        xAxis.granularityEnabled = true
+        xAxis.granularity = 1
+        //chartView.setVisibleXRangeMaximum(50)
         chartView.scaleYEnabled = false
         chartView.legend.form = .line
         let l = chartView.legend
@@ -87,15 +93,15 @@ class ViewController: UIViewController {
         l.verticalAlignment = .bottom
         l.orientation = .horizontal
         l.drawInside = false
-        //chartView.animate(xAxisDuration: 2.5)
         setData()
+        chartView.setVisibleXRangeMinimum(3)
     }
     
     fileprivate func setData() {
         let count = dayMinutes
         let range = ClosedRange<Double>(uncheckedBounds: (0, 100))
         let values = (0..<count).compactMap { (i) -> ChartDataEntry? in
-            if Int.random(in: ClosedRange<Int>(uncheckedBounds: (0, 100))) > 1 {
+            if Int.random(in: ClosedRange<Int>(uncheckedBounds: (0, 100))) > 1 && i != 0 {
                 return nil
             }
             let val = Double.random(in: range) + 3
@@ -126,10 +132,9 @@ class ViewController: UIViewController {
         let gradientColors = [ChartColorTemplates.colorFromString("#00ff0000").cgColor,
                               ChartColorTemplates.colorFromString("#ffff0000").cgColor]
         let gradient = CGGradient(colorsSpace: nil, colors: gradientColors as CFArray, locations: nil)!
-        
         set1.fillAlpha = 1
         set1.fill = Fill(linearGradient: gradient, angle: 90) //.linearGradient(gradient, angle: 90)
-        //set1.drawFilledEnabled = true
+        set1.drawFilledEnabled = true
         set1.drawHorizontalHighlightIndicatorEnabled = false
         set1.drawVerticalHighlightIndicatorEnabled = false
         let data = LineChartData(dataSet: set1)
