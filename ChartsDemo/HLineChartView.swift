@@ -22,4 +22,5 @@ class HLineChartView: LineChartView {
         self.xAxisRenderer = HXAxisRenderer(viewPortHandler: viewPortHandler, xAxis: xAxis, transformer: getTransformer(forAxis: .left))
     }
    
+    
 }

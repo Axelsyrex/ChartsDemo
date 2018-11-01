@@ -44,7 +44,7 @@ class ViewController: UIViewController {
         
         chartView.drawGridBackgroundEnabled = true
         chartView.gridBackgroundColor = UIColor.white
-        //chartView.xAxis.valueFormatter = self
+        chartView.xAxis.valueFormatter = self
         let leftAxis = chartView.leftAxis
         leftAxis.drawBottomYLabelEntryEnabled = true
         leftAxis.drawTopYLabelEntryEnabled = true
@@ -77,7 +77,7 @@ class ViewController: UIViewController {
         //xAxis.addLimitLine(limitLine4)
         
         //xAxis.drawLimitLinesBehindDataEnabled = true
-        //xAxis.valueFormatter = self
+        xAxis.valueFormatter = self
         //leftAxis.drawLimitLinesBehindDataEnabled = true
         
         chartView.setScaleMinima(2.5, scaleY: 1)
@@ -128,7 +128,6 @@ class ViewController: UIViewController {
         set1.formLineDashLengths = [5, 2.5]
         set1.formLineWidth = 1
         set1.formSize = 15
-        
         let gradientColors = [ChartColorTemplates.colorFromString("#00ff0000").cgColor,
                               ChartColorTemplates.colorFromString("#ffff0000").cgColor]
         let gradient = CGGradient(colorsSpace: nil, colors: gradientColors as CFArray, locations: nil)!
@@ -148,8 +147,18 @@ class ViewController: UIViewController {
 extension ViewController: IAxisValueFormatter {
     
     func stringForValue(_ value: Double, axis: AxisBase?) -> String {
+        var stringValue = ""
+//        if (Int(value) % 5) != 0 {
+//            print(Int(value))
+//            return ""
+//        }
         
-        return String(value)
+        let intValue = Int(value)
+        stringValue += "\(intValue/60):"
+        let remainder = intValue % 60
+        let remainderString = String(format: "%02d", remainder)
+        //stringValue += remainderString
+        return stringValue
     }
     
 }
