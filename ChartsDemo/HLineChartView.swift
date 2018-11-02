@@ -10,6 +10,12 @@ import Foundation
 
 class HLineChartView: LineChartView {
     
+    private let _hxAxis = HXAxis()
+    
+    override var xAxis: XAxis {
+        return _hxAxis
+    }
+    
     public override init(frame: CGRect)
     {
         super.init(frame: frame)

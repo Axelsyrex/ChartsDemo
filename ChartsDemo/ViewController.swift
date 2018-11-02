@@ -44,7 +44,6 @@ class ViewController: UIViewController {
         
         chartView.drawGridBackgroundEnabled = true
         chartView.gridBackgroundColor = UIColor.white
-        chartView.xAxis.valueFormatter = self
         let leftAxis = chartView.leftAxis
         leftAxis.drawBottomYLabelEntryEnabled = true
         leftAxis.drawTopYLabelEntryEnabled = true
@@ -54,7 +53,7 @@ class ViewController: UIViewController {
         leftAxis.axisMinimum = 0.0
         //leftAxis.labelPosition = .insideChart
         
-        leftAxis.labelXOffset = 50
+        //leftAxis.labelXOffset = 50
         leftAxis.granularityEnabled = true
         leftAxis.granularity = 1
         chartView.rightAxis.enabled = false
@@ -77,7 +76,8 @@ class ViewController: UIViewController {
         //xAxis.addLimitLine(limitLine4)
         
         //xAxis.drawLimitLinesBehindDataEnabled = true
-        xAxis.valueFormatter = self
+        
+        xAxis.valueFormatter = HChartDayTimeValueFormatter(chartView: chartView)
         //leftAxis.drawLimitLinesBehindDataEnabled = true
         
         chartView.setScaleMinima(2.5, scaleY: 1)
@@ -100,7 +100,7 @@ class ViewController: UIViewController {
     fileprivate func setData() {
         let count = dayMinutes
         let range = ClosedRange<Double>(uncheckedBounds: (0, 100))
-        let values = (0..<count).compactMap { (i) -> ChartDataEntry? in
+        let values = (0...count).compactMap { (i) -> ChartDataEntry? in
             if Int.random(in: ClosedRange<Int>(uncheckedBounds: (0, 100))) > 1 && i != 0 {
                 return nil
             }
@@ -147,16 +147,36 @@ class ViewController: UIViewController {
 extension ViewController: IAxisValueFormatter {
     
     func stringForValue(_ value: Double, axis: AxisBase?) -> String {
+        return ""
+    }
+    
+}
+
+class HChartDayTimeValueFormatter: IAxisValueFormatter {
+    
+    unowned let chartView: HLineChartView
+    
+    init(chartView: HLineChartView) {
+        self.chartView = chartView
+    }
+    
+    func stringForValue(_ value: Double, axis: AxisBase?) -> String {
         var stringValue = ""
-//        if (Int(value) % 5) != 0 {
-//            print(Int(value))
+        let intValue = Int(value)
+//        guard (intValue % 60) == 0 else {
 //            return ""
 //        }
-        
-        let intValue = Int(value)
-        stringValue += "\(intValue/60):"
+        let hours = (intValue) / (60)
+        //print(hours)
+//        guard hours == 0 || hours == 12 else {
+//            return ""
+//        }
+        if chartView.scaleX >= 10 {
+            
+        }
+        stringValue += "\(hours)"
         let remainder = intValue % 60
-        let remainderString = String(format: "%02d", remainder)
+        let remainderString = String(format: ":%02d", remainder)
         //stringValue += remainderString
         return stringValue
     }
