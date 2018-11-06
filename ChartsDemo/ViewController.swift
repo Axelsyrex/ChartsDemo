@@ -11,8 +11,6 @@ import UIKit
 class ViewController: UIViewController {
     
     @IBOutlet var chartView: HLineChartView!
-    
-    let dayMinutes = 60*24
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,33 +34,39 @@ class ViewController: UIViewController {
         chartView.doubleTapToZoomEnabled = false
         chartView.highlightPerTapEnabled = true
         let xAxis = chartView.xAxis
-        xAxis.gridLineDashLengths = [0, 0]
+        xAxis.gridLineDashLengths = [5, 5]
         xAxis.drawGridLinesEnabled = false
         xAxis.gridLineDashPhase = 0
         xAxis.labelPosition = .bottom
         xAxis.axisMinimum = 0.0
+        xAxis.axisLineColor = UIColor(hexString: "#cccccc")
         
         chartView.drawGridBackgroundEnabled = true
         chartView.gridBackgroundColor = UIColor.white
         let leftAxis = chartView.leftAxis
         leftAxis.drawBottomYLabelEntryEnabled = true
         leftAxis.drawTopYLabelEntryEnabled = true
-        leftAxis.gridLineDashLengths = [3, 3]
+        leftAxis.gridLineDashLengths = [5, 5]
         leftAxis.drawLimitLinesBehindDataEnabled = true
         leftAxis.gridLineDashPhase = 100
         leftAxis.axisMinimum = 0.0
+        leftAxis.gridColor = UIColor(hexString: "#cccccc")
+        leftAxis.xOffset = 1.0
+        leftAxis.yOffset = -5.0
+        leftAxis.drawTopYLabelEntryEnabled = true
+        leftAxis.zeroLineColor = UIColor.clear
         //leftAxis.labelPosition = .insideChart
         
         //leftAxis.labelXOffset = 50
         leftAxis.granularityEnabled = true
         leftAxis.granularity = 1
         chartView.rightAxis.enabled = false
-        
-        let limitLine = ChartLimitLine(limit: 0, label: "First limit")
-        let limitLine2 = ChartLimitLine(limit: 25, label: "Second limit")
-        let limitLine3 = ChartLimitLine(limit: 50, label: "Third limit")
+        xAxis.drawLimitLinesBehindDataEnabled = true
+        let limitLine = ChartLimitLine(limit: 0, label: "Day 1")
+        let limitLine2 = ChartLimitLine(limit: Double(ChartConstants.dayDuration), label: "Day 2")
+        let limitLine3 = ChartLimitLine(limit: Double(ChartConstants.dayDuration*2), label: "Day 3")
         let limitLine4 = ChartLimitLine(limit: 75, label: "Fourth limit")
-        limitLine.labelPosition = .rightTop
+//        limitLine.labelPosition = .rightTop
         limitLine.lineColor = UIColor(red: 197.0/255.0, green: 231.0/255.0, blue: 247.0/255.0, alpha: 0.7)
         limitLine2.labelPosition = .rightTop
         limitLine2.lineColor = UIColor(red: 197.0/255.0, green: 231.0/255.0, blue: 247.0/255.0, alpha: 0.7)
@@ -70,12 +74,12 @@ class ViewController: UIViewController {
         limitLine3.lineColor = UIColor(red: 197.0/255.0, green: 231.0/255.0, blue: 247.0/255.0, alpha: 0.7)
         limitLine4.labelPosition = .rightTop
         limitLine4.lineColor = UIColor(red: 197.0/255.0, green: 231.0/255.0, blue: 247.0/255.0, alpha: 0.7)
-        //xAxis.addLimitLine(limitLine)
-        //xAxis.addLimitLine(limitLine2)
-        //xAxis.addLimitLine(limitLine3)
+        xAxis.addLimitLine(limitLine)
+        xAxis.addLimitLine(limitLine2)
+        xAxis.addLimitLine(limitLine3)
         //xAxis.addLimitLine(limitLine4)
         
-        //xAxis.drawLimitLinesBehindDataEnabled = true
+        
         
         xAxis.valueFormatter = HChartDayTimeValueFormatter(chartView: chartView)
         //leftAxis.drawLimitLinesBehindDataEnabled = true
@@ -94,21 +98,31 @@ class ViewController: UIViewController {
         l.orientation = .horizontal
         l.drawInside = false
         setData()
-        chartView.setVisibleXRangeMinimum(3)
+        chartView.setVisibleXRangeMaximum(60*24*2)
+        chartView.setVisibleXRangeMinimum(1.5)
     }
     
-    fileprivate func setData() {
-        let count = dayMinutes
-        let range = ClosedRange<Double>(uncheckedBounds: (0, 100))
-        let values = (0...count).compactMap { (i) -> ChartDataEntry? in
-            if Int.random(in: ClosedRange<Int>(uncheckedBounds: (0, 100))) > 1 && i != 0 {
+    fileprivate func chartdataSet(range: ClosedRange<Int>) -> ChartDataSet {
+        let timevaluesRange = ClosedRange<Double>(uncheckedBounds: (0,1100))
+        let values = (range).compactMap { (i) -> ChartDataEntry? in
+            let addChartValue = Int.random(in: ClosedRange<Int>(uncheckedBounds: (0, 100)))
+            if addChartValue > 1 && i != 0 {
                 return nil
             }
-            let val = Double.random(in: range) + 3
+            print(addChartValue)
+            var val = Double.random(in: timevaluesRange) + 3
+            if val > 70 {
+                val = 20
+            }
+            else {
+                val = 0
+            }
             return ChartDataEntry(x: Double(i), y: val, icon: NSUIImage(contentsOfFile: "icon"))
         }
         
+        
         let set1 = LineChartDataSet(values: values, label: "DataSet 1")
+        set1.mode = .stepped
         set1.drawIconsEnabled = false
         
         //set1.lineDashLengths = [5, 2.5]
@@ -133,10 +147,16 @@ class ViewController: UIViewController {
         let gradient = CGGradient(colorsSpace: nil, colors: gradientColors as CFArray, locations: nil)!
         set1.fillAlpha = 1
         set1.fill = Fill(linearGradient: gradient, angle: 90) //.linearGradient(gradient, angle: 90)
-        set1.drawFilledEnabled = true
+        //set1.drawFilledEnabled = true
         set1.drawHorizontalHighlightIndicatorEnabled = false
         set1.drawVerticalHighlightIndicatorEnabled = false
-        let data = LineChartData(dataSet: set1)
+        return set1
+    }
+    
+    fileprivate func setData() {
+        let set1 = chartdataSet(range: (0...(ChartConstants.totalDaysDuration)))
+        //let set2 = chartdataSet(range: (dayMinutes/10...(dayMinutes-323)))
+        let data = LineChartData(dataSets: [set1])
         data.setDrawValues(false)
         chartView.xAxis.axisMaximum = data.xMax + 1
         chartView.data = data
@@ -161,23 +181,18 @@ class HChartDayTimeValueFormatter: IAxisValueFormatter {
     }
     
     func stringForValue(_ value: Double, axis: AxisBase?) -> String {
-        var stringValue = ""
-        let intValue = Int(value)
-//        guard (intValue % 60) == 0 else {
+//        guard (Int(value) % ChartConstants.totalDaysDuration) % 60 == 0 else {
 //            return ""
 //        }
-        let hours = (intValue) / (60)
-        //print(hours)
-//        guard hours == 0 || hours == 12 else {
-//            return ""
-//        }
+        let dayDuration = Int(value) % ChartConstants.dayDuration
+        let hours = (dayDuration) / (60)
         if chartView.scaleX >= 10 {
             
         }
-        stringValue += "\(hours)"
-        let remainder = intValue % 60
+        var stringValue = "\(hours)"
+        let remainder = dayDuration % 60
         let remainderString = String(format: ":%02d", remainder)
-        //stringValue += remainderString
+        stringValue += remainderString
         return stringValue
     }
     

@@ -8,6 +8,13 @@
 
 import Foundation
 
+enum ChartConstants {
+    static let dayDuration = 60*24
+    static let totalDaysDuration = dayDuration*3
+    static let maxDisplayTime = dayDuration*2
+    static let minDisplayTime = 2
+}
+
 class HLineChartView: LineChartView {
     
     private let _hxAxis = HXAxis()
@@ -28,5 +35,4 @@ class HLineChartView: LineChartView {
         self.xAxisRenderer = HXAxisRenderer(viewPortHandler: viewPortHandler, xAxis: xAxis, transformer: getTransformer(forAxis: .left))
     }
    
-    
 }
