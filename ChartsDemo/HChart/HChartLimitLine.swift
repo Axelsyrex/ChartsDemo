@@ -10,21 +10,23 @@ import Foundation
 
 class HChartLimitLine: ChartLimitLine {
     
-    var isDataGap: Bool
+    let type: LimitType
     
-    init(isDataGap: Bool) {
-        self.isDataGap = isDataGap
+    init(type: LimitType) {
+        self.type = type
         super.init()
+        switch type {
+        case .gap(let limit):
+            self.limit = limit
+        case .gradient(let limit, let label):
+            self.limit = limit
+            self.label = label
+        }
     }
     
-    convenience init(limit: Double, isDataGap: Bool) {
-        self.init(isDataGap: isDataGap)
-        self.limit = limit
-    }
-    
-    convenience init(limit: Double, label: String, isDataGap: Bool) {
-        self.init(limit: limit, isDataGap: isDataGap)
-        self.label = label
+    enum LimitType {
+        case gap(limit: Double)
+        case gradient(limit: Double, label: String)
     }
     
 }

@@ -18,13 +18,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tSa-AT-fal" customClass="HLineChartView" customModule="ChartsDemo" customModuleProvider="target">
-                                <rect key="frame" x="16" y="60" width="343" height="597"/>
+                                <rect key="frame" x="16" y="200" width="343" height="457"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="tSa-AT-fal" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="40" id="ETM-G1-HEG"/>
+                            <constraint firstItem="tSa-AT-fal" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="180" id="ETM-G1-HEG"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="tSa-AT-fal" secondAttribute="trailing" constant="16" id="FSd-hX-rdF"/>
                             <constraint firstItem="tSa-AT-fal" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="Hwo-I8-IWc"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="tSa-AT-fal" secondAttribute="bottom" constant="10" id="RIm-sA-bij"/>

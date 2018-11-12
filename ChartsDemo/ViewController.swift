@@ -84,6 +84,12 @@ class ViewController: UIViewController {
         for day in 0..<ChartConstants.days {
             addDayLimitLine(startValue: range.lowerBound, for: day, xAxis: xAxis)
         }
+        
+        let gapLimitLine = HChartLimitLine(type: .gap(limit: Double(range.lowerBound+60*60*10)))
+        gapLimitLine.lineColor = UIColor(red: 197.0/255.0, green: 231.0/255.0, blue: 247.0/255.0, alpha: 1.0)
+        gapLimitLine.lineWidth = 1.0
+        xAxis.addLimitLine(gapLimitLine)
+        
         setData()
         chartView.setVisibleXRangeMaximum(ChartConstants.maxDisplayTime)
         chartView.setVisibleXRangeMinimum(ChartConstants.minDisplayTime)
@@ -92,7 +98,7 @@ class ViewController: UIViewController {
     fileprivate func chartdataSet(range: ClosedRange<Int>) -> ChartDataSet {
         let timevaluesRange = ClosedRange<Double>(uncheckedBounds: (0,1100))
         let values = (range).compactMap { (i) -> ChartDataEntry? in
-            let addChartValue = Int.random(in: ClosedRange<Int>(uncheckedBounds: (0, 500)))
+            let addChartValue = Int.random(in: ClosedRange<Int>(uncheckedBounds: (0, 900)))
             if addChartValue > 0 && i != 0 {
                 return nil
             }
@@ -141,7 +147,7 @@ class ViewController: UIViewController {
     }
     
     fileprivate func setData() {
-        let set1 = chartdataSet(range: range.clamped(to: range.lowerBound...range.lowerBound+60*60*7))
+        let set1 = chartdataSet(range: range.clamped(to: range.lowerBound...range.lowerBound+60*60*10))
         let set2 = chartdataSet(range: range.clamped(to: range.lowerBound+60*60*16...range.upperBound))
         //let set2 = chartdataSet(range: (dayMinutes/10...(dayMinutes-323)))
         let data = LineChartData(dataSets: [set1, set2])
@@ -153,7 +159,7 @@ class ViewController: UIViewController {
     }
     
     func addDayLimitLine(startValue: Int,for day: Int, xAxis: XAxis) {
-        let limitLine = ChartLimitLine(limit: Double(startValue+(ChartConstants.dayDuration*day)), label: "Day \(day+1)")
+        let limitLine = HChartLimitLine(type: .gradient(limit: Double(startValue+(ChartConstants.dayDuration*day)), label: "Day \(day+1)"))
         limitLine.labelPosition = .rightTop
         limitLine.lineColor = UIColor(red: 197.0/255.0, green: 231.0/255.0, blue: 247.0/255.0, alpha: 0.7)
         xAxis.addLimitLine(limitLine)
