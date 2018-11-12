@@ -1,0 +1,38 @@
+//
+//  HChartDayTimeValueFormatter.swift
+//  ChartsDemo
+//
+//  Created by Aleksander Angelov on 11/7/18.
+//  Copyright © 2018 Aleksandar Angelov. All rights reserved.
+//
+
+import Foundation
+
+class HChartDayTimeValueFormatter: IAxisValueFormatter {
+    
+    unowned let chartView: HLineChartView
+    
+    private lazy var calendar: Calendar = {
+        return Calendar(identifier: .gregorian)
+    }()
+    
+    init(chartView: HLineChartView) {
+        self.chartView = chartView
+    }
+    
+    func stringForValue(_ value: Double, axis: AxisBase?) -> String {
+        let date = Date(timeIntervalSince1970: value)
+        
+        let components = calendar.dateComponents(in: TimeZone.autoupdatingCurrent, from: date)
+        
+        //let hours = dayDuration / (60 * 60)
+        //let minutes = (dayDuration % 3600) / 60
+        let hours = components.hour ?? 0
+        let minutes = components.minute ?? 0
+        var stringValue = "\(hours)"
+        let minutesString = String(format: ":%02d", minutes)
+        stringValue += minutesString
+        return stringValue
+    }
+    
+}

@@ -37,7 +37,9 @@ class HXAxisRenderer: XAxisRenderer {
             {
                 continue
             }
-            
+            if let xs = l as? HChartLimitLine {
+                
+            }
             context.saveGState()
             defer { context.restoreGState() }
             
@@ -49,7 +51,7 @@ class HXAxisRenderer: XAxisRenderer {
             position.x = CGFloat(l.limit)
             position.y = 0.0
             position = position.applying(trans)
-            let maxPosition = CGPoint(x: CGFloat(l.limit+25), y: 0).applying(trans)
+            let maxPosition = CGPoint(x: CGFloat(l.limit+Double(ChartConstants.dayDuration)), y: 0).applying(trans)
             renderLimitLineGradient(context: context, limitLine: l, position: position)
             renderLimitLineLine(context: context, limitLine: l, position: position)
             renderLimitLineLabel(context: context, limitLine: l, position: position, yOffset: 2.0 + l.yOffset, maxPosition: maxPosition)

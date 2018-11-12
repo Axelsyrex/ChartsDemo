@@ -9,19 +9,17 @@
 import Foundation
 
 enum ChartConstants {
-    static let dayDuration = 60*24
-    static let totalDaysDuration = dayDuration*3
-    static let maxDisplayTime = dayDuration*2
-    static let minDisplayTime = 2
+    static let days = 3
+    static let dayDuration = 60*60*24
+    static let totalDaysDuration = dayDuration*days
+    static let maxDisplayTime = Double(dayDuration*2)
+    static let minDisplayTime = Double(2*60)
 }
 
 class HLineChartView: LineChartView {
     
     private let _hxAxis = HXAxis()
-    
-    override var xAxis: XAxis {
-        return _hxAxis
-    }
+     
     
     public override init(frame: CGRect)
     {
