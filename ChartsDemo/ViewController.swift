@@ -39,6 +39,7 @@ class ViewController: UIViewController {
         chartView.pinchZoomEnabled = true
         chartView.doubleTapToZoomEnabled = false
         chartView.highlightPerTapEnabled = true
+        chartView.gridBackgroundColor = UIColor(hexString: "#f2fafe")
         let xAxis = chartView.xAxis
         xAxis.gridLineDashLengths = [5, 5]
         xAxis.drawGridLinesEnabled = false
@@ -48,7 +49,7 @@ class ViewController: UIViewController {
         xAxis.axisLineColor = UIColor(hexString: "#cccccc")
         
         chartView.drawGridBackgroundEnabled = true
-        chartView.gridBackgroundColor = UIColor.white
+        //chartView.gridBackgroundColor = UIColor.white
         let leftAxis = chartView.leftAxis
         leftAxis.drawBottomYLabelEntryEnabled = true
         leftAxis.drawTopYLabelEntryEnabled = true
@@ -85,8 +86,9 @@ class ViewController: UIViewController {
             addDayLimitLine(startValue: range.lowerBound, for: day, xAxis: xAxis)
         }
         
+        // Add gap limit line
         let gapLimitLine = HChartLimitLine(type: .gap(limit: Double(range.lowerBound+60*60*10)))
-        gapLimitLine.lineColor = UIColor(red: 197.0/255.0, green: 231.0/255.0, blue: 247.0/255.0, alpha: 1.0)
+        gapLimitLine.lineColor = UIColor(red: 107.0/255.0, green: 172.0/255.0, blue: 204.0/255.0, alpha: 0.7)
         gapLimitLine.lineWidth = 1.0
         xAxis.addLimitLine(gapLimitLine)
         
@@ -99,7 +101,7 @@ class ViewController: UIViewController {
         let timevaluesRange = ClosedRange<Double>(uncheckedBounds: (0,1100))
         let values = (range).compactMap { (i) -> ChartDataEntry? in
             let addChartValue = Int.random(in: ClosedRange<Int>(uncheckedBounds: (0, 900)))
-            if addChartValue > 0 && i != 0 {
+            if addChartValue > 0 && i != 0 && i != range.upperBound {
                 return nil
             }
             print(addChartValue)
@@ -149,10 +151,10 @@ class ViewController: UIViewController {
     fileprivate func setData() {
         let set1 = chartdataSet(range: range.clamped(to: range.lowerBound...range.lowerBound+60*60*10))
         let set2 = chartdataSet(range: range.clamped(to: range.lowerBound+60*60*16...range.upperBound))
+        
         //let set2 = chartdataSet(range: (dayMinutes/10...(dayMinutes-323)))
         let data = LineChartData(dataSets: [set1, set2])
         data.setDrawValues(false)
-        
         chartView.xAxis.axisMinimum = Double(range.lowerBound)
         chartView.xAxis.axisMaximum = Double(range.upperBound + 1)
         chartView.data = data

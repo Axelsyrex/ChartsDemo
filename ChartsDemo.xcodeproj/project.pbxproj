@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5511FBBF2193513C00133A27 /* HXAxis.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5511FBBB2193513C00133A27 /* HXAxis.swift */; };
 		5511FBC02193513C00133A27 /* HLineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5511FBBC2193513C00133A27 /* HLineChartView.swift */; };
 		5511FBC12193513C00133A27 /* HXAxisRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5511FBBD2193513C00133A27 /* HXAxisRenderer.swift */; };
 		5511FBC22193513C00133A27 /* HChartDayTimeValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5511FBBE2193513C00133A27 /* HChartDayTimeValueFormatter.swift */; };
@@ -24,7 +23,6 @@
 		011DEBB957AE818CB2537BCB /* Pods_ChartsDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChartsDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0592ABCF8C120283389228E8 /* Pods-ChartsDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChartsDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ChartsDemo/Pods-ChartsDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		074A158783EC97021A333968 /* Pods-ChartsDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChartsDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-ChartsDemo/Pods-ChartsDemo.release.xcconfig"; sourceTree = "<group>"; };
-		5511FBBB2193513C00133A27 /* HXAxis.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HXAxis.swift; sourceTree = "<group>"; };
 		5511FBBC2193513C00133A27 /* HLineChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HLineChartView.swift; sourceTree = "<group>"; };
 		5511FBBD2193513C00133A27 /* HXAxisRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HXAxisRenderer.swift; sourceTree = "<group>"; };
 		5511FBBE2193513C00133A27 /* HChartDayTimeValueFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HChartDayTimeValueFormatter.swift; sourceTree = "<group>"; };
@@ -62,7 +60,6 @@
 		5511FBBA2193513C00133A27 /* HChart */ = {
 			isa = PBXGroup;
 			children = (
-				5511FBBB2193513C00133A27 /* HXAxis.swift */,
 				5511FBBC2193513C00133A27 /* HLineChartView.swift */,
 				55436F3C2199D6A600B19EE0 /* HChartLimitLine.swift */,
 				5511FBBD2193513C00133A27 /* HXAxisRenderer.swift */,
@@ -239,7 +236,6 @@
 				5511FBC02193513C00133A27 /* HLineChartView.swift in Sources */,
 				5511FBC22193513C00133A27 /* HChartDayTimeValueFormatter.swift in Sources */,
 				779BB3D22180E65500C7D819 /* ViewController.swift in Sources */,
-				5511FBBF2193513C00133A27 /* HXAxis.swift in Sources */,
 				779BB3D02180E65500C7D819 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

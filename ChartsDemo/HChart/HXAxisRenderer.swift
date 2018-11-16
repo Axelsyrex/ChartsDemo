@@ -12,7 +12,6 @@ import UIKit
 
 class HXAxisRenderer: XAxisRenderer {
     
-    
     override func drawLabels(context: CGContext, pos: CGFloat, anchor: CGPoint) {
         guard
             let xAxis = self.axis as? XAxis,

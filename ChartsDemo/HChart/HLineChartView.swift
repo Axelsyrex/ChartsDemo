@@ -18,9 +18,6 @@ enum ChartConstants {
 
 class HLineChartView: LineChartView {
     
-    private let _hxAxis = HXAxis()
-     
-    
     public override init(frame: CGRect)
     {
         super.init(frame: frame)
